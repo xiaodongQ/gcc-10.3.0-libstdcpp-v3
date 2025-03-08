@@ -73,10 +73,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     using steady_clock = chrono::steady_clock;
     using system_clock = chrono::system_clock;
 #ifdef _GLIBCXX_USE_PTHREAD_COND_CLOCKWAIT
+    // 控制在使用条件变量（std::condition_variable）时是否使用 POSIX 线程库（pthread）中基于时钟的等待函数。
+    // 具体来说，当这个宏被定义时，libstdc++ 会使用 pthread_cond_timedwait 或 pthread_cond_clockwait（如果系统支持的话）来实现条件变量的定时等待功能
     using __clock_t = steady_clock;
 #else
     using __clock_t = system_clock;
 #endif
+    // __gthread_cond_t 是 GNU C++ 库（libstdc++）中用于线程同步的底层条件变量类型，
+    // 它是对 POSIX 线程库（pthread）中条件变量的封装，为 C++ 标准库中的 std::condition_variable 提供了底层实现支持。
     typedef __gthread_cond_t		__native_type;
 
 #ifdef __GTHREAD_COND_INIT
