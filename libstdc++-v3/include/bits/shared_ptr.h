@@ -67,7 +67,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Ch, typename _Tr, typename _Tp, _Lock_policy _Lp>
     inline std::basic_ostream<_Ch, _Tr>&
     operator<<(std::basic_ostream<_Ch, _Tr>& __os,
-	       const __shared_ptr<_Tp, _Lp>& __p)
+               const __shared_ptr<_Tp, _Lp>& __p)
     {
       __os << __p.get();
       return __os;
@@ -121,14 +121,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     class shared_ptr : public __shared_ptr<_Tp>
     {
       template<typename... _Args>
-	using _Constructible = typename enable_if<
-	  is_constructible<__shared_ptr<_Tp>, _Args...>::value
-	>::type;
+        using _Constructible = typename enable_if<
+          is_constructible<__shared_ptr<_Tp>, _Args...>::value
+        >::type;
 
       template<typename _Arg>
-	using _Assignable = typename enable_if<
-	  is_assignable<__shared_ptr<_Tp>&, _Arg>::value, shared_ptr&
-	>::type;
+        using _Assignable = typename enable_if<
+          is_assignable<__shared_ptr<_Tp>&, _Arg>::value, shared_ptr&
+        >::type;
 
     public:
 
@@ -155,8 +155,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @throw  std::bad_alloc, in which case @c delete @a __p is called.
        */
       template<typename _Yp, typename = _Constructible<_Yp*>>
-	explicit
-	shared_ptr(_Yp* __p) : __shared_ptr<_Tp>(__p) { }
+        explicit
+        shared_ptr(_Yp* __p) : __shared_ptr<_Tp>(__p) { }
 
       /**
        *  @brief  Construct a %shared_ptr that owns the pointer @a __p
@@ -172,8 +172,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  __shared_ptr will release __p by calling __d(__p)
        */
       template<typename _Yp, typename _Deleter,
-	       typename = _Constructible<_Yp*, _Deleter>>
-	shared_ptr(_Yp* __p, _Deleter __d)
+               typename = _Constructible<_Yp*, _Deleter>>
+        shared_ptr(_Yp* __p, _Deleter __d)
         : __shared_ptr<_Tp>(__p, std::move(__d)) { }
 
       /**
@@ -190,7 +190,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  The last owner will call __d(__p)
        */
       template<typename _Deleter>
-	shared_ptr(nullptr_t __p, _Deleter __d)
+        shared_ptr(nullptr_t __p, _Deleter __d)
         : __shared_ptr<_Tp>(__p, std::move(__d)) { }
 
       /**
@@ -209,9 +209,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  __shared_ptr will release __p by calling __d(__p)
        */
       template<typename _Yp, typename _Deleter, typename _Alloc,
-	       typename = _Constructible<_Yp*, _Deleter, _Alloc>>
-	shared_ptr(_Yp* __p, _Deleter __d, _Alloc __a)
-	: __shared_ptr<_Tp>(__p, std::move(__d), std::move(__a)) { }
+               typename = _Constructible<_Yp*, _Deleter, _Alloc>>
+        shared_ptr(_Yp* __p, _Deleter __d, _Alloc __a)
+        : __shared_ptr<_Tp>(__p, std::move(__d), std::move(__a)) { }
 
       /**
        *  @brief  Construct a %shared_ptr that owns a null pointer
@@ -229,8 +229,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  The last owner will call __d(__p)
        */
       template<typename _Deleter, typename _Alloc>
-	shared_ptr(nullptr_t __p, _Deleter __d, _Alloc __a)
-	: __shared_ptr<_Tp>(__p, std::move(__d), std::move(__a)) { }
+        shared_ptr(nullptr_t __p, _Deleter __d, _Alloc __a)
+        : __shared_ptr<_Tp>(__p, std::move(__d), std::move(__a)) { }
 
       // Aliasing constructor
 
@@ -253,8 +253,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        * @endcode
        */
       template<typename _Yp>
-	shared_ptr(const shared_ptr<_Yp>& __r, element_type* __p) noexcept
-	: __shared_ptr<_Tp>(__r, __p) { }
+        shared_ptr(const shared_ptr<_Yp>& __r, element_type* __p) noexcept
+        : __shared_ptr<_Tp>(__r, __p) { }
 
 #if __cplusplus > 201703L
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -280,8 +280,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        * @endcode
        */
       template<typename _Yp>
-	shared_ptr(shared_ptr<_Yp>&& __r, element_type* __p) noexcept
-	: __shared_ptr<_Tp>(std::move(__r), __p) { }
+        shared_ptr(shared_ptr<_Yp>&& __r, element_type* __p) noexcept
+        : __shared_ptr<_Tp>(std::move(__r), __p) { }
 #endif
       /**
        *  @brief  If @a __r is empty, constructs an empty %shared_ptr;
@@ -291,8 +291,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @post   get() == __r.get() && use_count() == __r.use_count()
        */
       template<typename _Yp,
-	       typename = _Constructible<const shared_ptr<_Yp>&>>
-	shared_ptr(const shared_ptr<_Yp>& __r) noexcept
+               typename = _Constructible<const shared_ptr<_Yp>&>>
+        shared_ptr(const shared_ptr<_Yp>& __r) noexcept
         : __shared_ptr<_Tp>(__r) { }
 
       /**
@@ -309,8 +309,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @post   *this contains the old value of @a __r, @a __r is empty.
        */
       template<typename _Yp, typename = _Constructible<shared_ptr<_Yp>>>
-	shared_ptr(shared_ptr<_Yp>&& __r) noexcept
-	: __shared_ptr<_Tp>(std::move(__r)) { }
+        shared_ptr(shared_ptr<_Yp>&& __r) noexcept
+        : __shared_ptr<_Tp>(std::move(__r)) { }
 
       /**
        *  @brief  Constructs a %shared_ptr that shares ownership with @a __r
@@ -321,32 +321,32 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *          in which case the constructor has no effect.
        */
       template<typename _Yp, typename = _Constructible<const weak_ptr<_Yp>&>>
-	explicit shared_ptr(const weak_ptr<_Yp>& __r)
-	: __shared_ptr<_Tp>(__r) { }
+        explicit shared_ptr(const weak_ptr<_Yp>& __r)
+        : __shared_ptr<_Tp>(__r) { }
 
 #if _GLIBCXX_USE_DEPRECATED
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
       template<typename _Yp, typename = _Constructible<auto_ptr<_Yp>>>
-	shared_ptr(auto_ptr<_Yp>&& __r);
+        shared_ptr(auto_ptr<_Yp>&& __r);
 #pragma GCC diagnostic pop
 #endif
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 2399. shared_ptr's constructor from unique_ptr should be constrained
       template<typename _Yp, typename _Del,
-	       typename = _Constructible<unique_ptr<_Yp, _Del>>>
-	shared_ptr(unique_ptr<_Yp, _Del>&& __r)
-	: __shared_ptr<_Tp>(std::move(__r)) { }
+               typename = _Constructible<unique_ptr<_Yp, _Del>>>
+        shared_ptr(unique_ptr<_Yp, _Del>&& __r)
+        : __shared_ptr<_Tp>(std::move(__r)) { }
 
 #if __cplusplus <= 201402L && _GLIBCXX_USE_DEPRECATED
       // This non-standard constructor exists to support conversions that
       // were possible in C++11 and C++14 but are ill-formed in C++17.
       // If an exception is thrown this constructor has no effect.
       template<typename _Yp, typename _Del,
-		_Constructible<unique_ptr<_Yp, _Del>, __sp_array_delete>* = 0>
-	shared_ptr(unique_ptr<_Yp, _Del>&& __r)
-	: __shared_ptr<_Tp>(std::move(__r), __sp_array_delete()) { }
+                _Constructible<unique_ptr<_Yp, _Del>, __sp_array_delete>* = 0>
+        shared_ptr(unique_ptr<_Yp, _Del>&& __r)
+        : __shared_ptr<_Tp>(std::move(__r), __sp_array_delete()) { }
 #endif
 
       /**
@@ -358,59 +358,59 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       shared_ptr& operator=(const shared_ptr&) noexcept = default;
 
       template<typename _Yp>
-	_Assignable<const shared_ptr<_Yp>&>
-	operator=(const shared_ptr<_Yp>& __r) noexcept
-	{
-	  this->__shared_ptr<_Tp>::operator=(__r);
-	  return *this;
-	}
+        _Assignable<const shared_ptr<_Yp>&>
+        operator=(const shared_ptr<_Yp>& __r) noexcept
+        {
+          this->__shared_ptr<_Tp>::operator=(__r);
+          return *this;
+        }
 
 #if _GLIBCXX_USE_DEPRECATED
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
       template<typename _Yp>
-	_Assignable<auto_ptr<_Yp>>
-	operator=(auto_ptr<_Yp>&& __r)
-	{
-	  this->__shared_ptr<_Tp>::operator=(std::move(__r));
-	  return *this;
-	}
+        _Assignable<auto_ptr<_Yp>>
+        operator=(auto_ptr<_Yp>&& __r)
+        {
+          this->__shared_ptr<_Tp>::operator=(std::move(__r));
+          return *this;
+        }
 #pragma GCC diagnostic pop
 #endif
 
       shared_ptr&
       operator=(shared_ptr&& __r) noexcept
       {
-	this->__shared_ptr<_Tp>::operator=(std::move(__r));
-	return *this;
+        this->__shared_ptr<_Tp>::operator=(std::move(__r));
+        return *this;
       }
 
       template<class _Yp>
-	_Assignable<shared_ptr<_Yp>>
-	operator=(shared_ptr<_Yp>&& __r) noexcept
-	{
-	  this->__shared_ptr<_Tp>::operator=(std::move(__r));
-	  return *this;
-	}
+        _Assignable<shared_ptr<_Yp>>
+        operator=(shared_ptr<_Yp>&& __r) noexcept
+        {
+          this->__shared_ptr<_Tp>::operator=(std::move(__r));
+          return *this;
+        }
 
       template<typename _Yp, typename _Del>
-	_Assignable<unique_ptr<_Yp, _Del>>
-	operator=(unique_ptr<_Yp, _Del>&& __r)
-	{
-	  this->__shared_ptr<_Tp>::operator=(std::move(__r));
-	  return *this;
-	}
+        _Assignable<unique_ptr<_Yp, _Del>>
+        operator=(unique_ptr<_Yp, _Del>&& __r)
+        {
+          this->__shared_ptr<_Tp>::operator=(std::move(__r));
+          return *this;
+        }
 
     private:
       // This constructor is non-standard, it is used by allocate_shared.
       template<typename _Alloc, typename... _Args>
-	shared_ptr(_Sp_alloc_shared_tag<_Alloc> __tag, _Args&&... __args)
-	: __shared_ptr<_Tp>(__tag, std::forward<_Args>(__args)...)
-	{ }
+        shared_ptr(_Sp_alloc_shared_tag<_Alloc> __tag, _Args&&... __args)
+        : __shared_ptr<_Tp>(__tag, std::forward<_Args>(__args)...)
+        { }
 
       template<typename _Yp, typename _Alloc, typename... _Args>
-	friend shared_ptr<_Yp>
-	allocate_shared(const _Alloc& __a, _Args&&... __args);
+        friend shared_ptr<_Yp>
+        allocate_shared(const _Alloc& __a, _Args&&... __args);
 
       // This constructor is non-standard, it is used by weak_ptr::lock().
       shared_ptr(const weak_ptr<_Tp>& __r, std::nothrow_t)
@@ -446,7 +446,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp, typename _Up>
     inline strong_ordering
     operator<=>(const shared_ptr<_Tp>& __a,
-		const shared_ptr<_Up>& __b) noexcept
+                const shared_ptr<_Up>& __b) noexcept
     { return compare_three_way()(__a.get(), __b.get()); }
 
   template<typename _Tp>
@@ -600,7 +600,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Sp = shared_ptr<_Tp>;
       if (auto* __p = dynamic_cast<typename _Sp::element_type*>(__r.get()))
-	return _Sp(__r, __p);
+        return _Sp(__r, __p);
       return _Sp();
     }
 
@@ -625,7 +625,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Sp = shared_ptr<_Tp>;
       return _Sp(std::move(__r),
-		 static_cast<typename _Sp::element_type*>(__r.get()));
+                 static_cast<typename _Sp::element_type*>(__r.get()));
     }
 
   /// Convert type of `shared_ptr` rvalue, via `const_cast`
@@ -635,7 +635,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Sp = shared_ptr<_Tp>;
       return _Sp(std::move(__r),
-		 const_cast<typename _Sp::element_type*>(__r.get()));
+                 const_cast<typename _Sp::element_type*>(__r.get()));
     }
 
   /// Convert type of `shared_ptr` rvalue, via `dynamic_cast`
@@ -645,7 +645,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Sp = shared_ptr<_Tp>;
       if (auto* __p = dynamic_cast<typename _Sp::element_type*>(__r.get()))
-	return _Sp(std::move(__r), __p);
+        return _Sp(std::move(__r), __p);
       return _Sp();
     }
 
@@ -656,7 +656,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using _Sp = shared_ptr<_Tp>;
       return _Sp(std::move(__r),
-		 reinterpret_cast<typename _Sp::element_type*>(__r.get()));
+                 reinterpret_cast<typename _Sp::element_type*>(__r.get()));
     }
 #endif // C++20
 #endif // C++17
@@ -685,64 +685,64 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     class weak_ptr : public __weak_ptr<_Tp>
     {
       template<typename _Arg>
-	using _Constructible = typename enable_if<
-	  is_constructible<__weak_ptr<_Tp>, _Arg>::value
-	>::type;
+        using _Constructible = typename enable_if<
+          is_constructible<__weak_ptr<_Tp>, _Arg>::value
+        >::type;
 
       template<typename _Arg>
-	using _Assignable = typename enable_if<
-	  is_assignable<__weak_ptr<_Tp>&, _Arg>::value, weak_ptr&
-	>::type;
+        using _Assignable = typename enable_if<
+          is_assignable<__weak_ptr<_Tp>&, _Arg>::value, weak_ptr&
+        >::type;
 
     public:
       constexpr weak_ptr() noexcept = default;
 
       template<typename _Yp,
-	       typename = _Constructible<const shared_ptr<_Yp>&>>
-	weak_ptr(const shared_ptr<_Yp>& __r) noexcept
-	: __weak_ptr<_Tp>(__r) { }
+               typename = _Constructible<const shared_ptr<_Yp>&>>
+        weak_ptr(const shared_ptr<_Yp>& __r) noexcept
+        : __weak_ptr<_Tp>(__r) { }
 
       weak_ptr(const weak_ptr&) noexcept = default;
 
       template<typename _Yp, typename = _Constructible<const weak_ptr<_Yp>&>>
-	weak_ptr(const weak_ptr<_Yp>& __r) noexcept
-	: __weak_ptr<_Tp>(__r) { }
+        weak_ptr(const weak_ptr<_Yp>& __r) noexcept
+        : __weak_ptr<_Tp>(__r) { }
 
       weak_ptr(weak_ptr&&) noexcept = default;
 
       template<typename _Yp, typename = _Constructible<weak_ptr<_Yp>>>
-	weak_ptr(weak_ptr<_Yp>&& __r) noexcept
-	: __weak_ptr<_Tp>(std::move(__r)) { }
+        weak_ptr(weak_ptr<_Yp>&& __r) noexcept
+        : __weak_ptr<_Tp>(std::move(__r)) { }
 
       weak_ptr&
       operator=(const weak_ptr& __r) noexcept = default;
 
       template<typename _Yp>
-	_Assignable<const weak_ptr<_Yp>&>
-	operator=(const weak_ptr<_Yp>& __r) noexcept
-	{
-	  this->__weak_ptr<_Tp>::operator=(__r);
-	  return *this;
-	}
+        _Assignable<const weak_ptr<_Yp>&>
+        operator=(const weak_ptr<_Yp>& __r) noexcept
+        {
+          this->__weak_ptr<_Tp>::operator=(__r);
+          return *this;
+        }
 
       template<typename _Yp>
-	_Assignable<const shared_ptr<_Yp>&>
-	operator=(const shared_ptr<_Yp>& __r) noexcept
-	{
-	  this->__weak_ptr<_Tp>::operator=(__r);
-	  return *this;
-	}
+        _Assignable<const shared_ptr<_Yp>&>
+        operator=(const shared_ptr<_Yp>& __r) noexcept
+        {
+          this->__weak_ptr<_Tp>::operator=(__r);
+          return *this;
+        }
 
       weak_ptr&
       operator=(weak_ptr&& __r) noexcept = default;
 
       template<typename _Yp>
-	_Assignable<weak_ptr<_Yp>>
-	operator=(weak_ptr<_Yp>&& __r) noexcept
-	{
-	  this->__weak_ptr<_Tp>::operator=(std::move(__r));
-	  return *this;
-	}
+        _Assignable<weak_ptr<_Yp>>
+        operator=(weak_ptr<_Yp>&& __r) noexcept
+        {
+          this->__weak_ptr<_Tp>::operator=(std::move(__r));
+          return *this;
+        }
 
       shared_ptr<_Tp>
       lock() const noexcept
@@ -823,18 +823,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
     private:
       template<typename _Tp1>
-	void
-	_M_weak_assign(_Tp1* __p, const __shared_count<>& __n) const noexcept
-	{ _M_weak_this._M_assign(__p, __n); }
+        void
+        _M_weak_assign(_Tp1* __p, const __shared_count<>& __n) const noexcept
+        { _M_weak_this._M_assign(__p, __n); }
 
       // Found by ADL when this is an associated class.
       friend const enable_shared_from_this*
       __enable_shared_from_this_base(const __shared_count<>&,
-				     const enable_shared_from_this* __p)
+                                     const enable_shared_from_this* __p)
       { return __p; }
 
       template<typename, _Lock_policy>
-	friend class __shared_ptr;
+        friend class __shared_ptr;
 
       mutable weak_ptr<_Tp>  _M_weak_this;
     };
@@ -857,7 +857,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     allocate_shared(const _Alloc& __a, _Args&&... __args)
     {
       return shared_ptr<_Tp>(_Sp_alloc_shared_tag<_Alloc>{__a},
-			     std::forward<_Args>(__args)...);
+                             std::forward<_Args>(__args)...);
     }
 
   /**
@@ -873,7 +873,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       typedef typename std::remove_cv<_Tp>::type _Tp_nc;
       return std::allocate_shared<_Tp>(std::allocator<_Tp_nc>(),
-				       std::forward<_Args>(__args)...);
+                                       std::forward<_Args>(__args)...);
     }
 
   /// std::hash specialization for shared_ptr.
@@ -884,7 +884,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       size_t
       operator()(const shared_ptr<_Tp>& __s) const noexcept
       {
-	return std::hash<typename shared_ptr<_Tp>::element_type*>()(__s.get());
+        return std::hash<typename shared_ptr<_Tp>::element_type*>()(__s.get());
       }
     };
 

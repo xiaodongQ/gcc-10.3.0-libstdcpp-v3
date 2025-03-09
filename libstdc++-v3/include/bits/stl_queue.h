@@ -107,30 +107,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
       template<typename _Tp1, typename _Seq1>
-	friend bool
-	operator==(const queue<_Tp1, _Seq1>&, const queue<_Tp1, _Seq1>&);
+      friend bool
+      operator==(const queue<_Tp1, _Seq1>&, const queue<_Tp1, _Seq1>&);
 
       template<typename _Tp1, typename _Seq1>
-	friend bool
-	operator<(const queue<_Tp1, _Seq1>&, const queue<_Tp1, _Seq1>&);
+      friend bool
+      operator<(const queue<_Tp1, _Seq1>&, const queue<_Tp1, _Seq1>&);
 
 #if __cpp_lib_three_way_comparison
       template<typename _Tp1, three_way_comparable _Seq1>
-	friend compare_three_way_result_t<_Seq1>
-	operator<=>(const queue<_Tp1, _Seq1>&, const queue<_Tp1, _Seq1>&);
+      friend compare_three_way_result_t<_Seq1>
+      operator<=>(const queue<_Tp1, _Seq1>&, const queue<_Tp1, _Seq1>&);
 #endif
 
 #if __cplusplus >= 201103L
       template<typename _Alloc>
-	using _Uses = typename
-	  enable_if<uses_allocator<_Sequence, _Alloc>::value>::type;
+      using _Uses = typename
+        enable_if<uses_allocator<_Sequence, _Alloc>::value>::type;
 
 #if __cplusplus >= 201703L
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 2566. Requirements on the first template parameter of container
       // adaptors
       static_assert(is_same<_Tp, typename _Sequence::value_type>::value,
-	  "value_type must be the same as the underlying container");
+        "value_type must be the same as the underlying container");
 #endif // C++17
 #endif // C++11
 
@@ -162,9 +162,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : c(__c) { }
 #else
       template<typename _Seq = _Sequence, typename _Requires = typename
-	       enable_if<is_default_constructible<_Seq>::value>::type>
-	queue()
-	: c() { }
+             enable_if<is_default_constructible<_Seq>::value>::type>
+      queue()
+      : c() { }
 
       explicit
       queue(const _Sequence& __c)
@@ -175,25 +175,25 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : c(std::move(__c)) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	explicit
-	queue(const _Alloc& __a)
-	: c(__a) { }
+      explicit
+      queue(const _Alloc& __a)
+      : c(__a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	queue(const _Sequence& __c, const _Alloc& __a)
-	: c(__c, __a) { }
+      queue(const _Sequence& __c, const _Alloc& __a)
+      : c(__c, __a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	queue(_Sequence&& __c, const _Alloc& __a)
-	: c(std::move(__c), __a) { }
+      queue(_Sequence&& __c, const _Alloc& __a)
+      : c(std::move(__c), __a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	queue(const queue& __q, const _Alloc& __a)
-	: c(__q.c, __a) { }
+      queue(const queue& __q, const _Alloc& __a)
+      : c(__q.c, __a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	queue(queue&& __q, const _Alloc& __a)
-	: c(std::move(__q.c), __a) { }
+      queue(queue&& __q, const _Alloc& __a)
+      : c(std::move(__q.c), __a) { }
 #endif
 
       /**
@@ -215,8 +215,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       reference
       front()
       {
-	__glibcxx_requires_nonempty();
-	return c.front();
+      __glibcxx_requires_nonempty();
+      return c.front();
       }
 
       /**
@@ -226,8 +226,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const_reference
       front() const
       {
-	__glibcxx_requires_nonempty();
-	return c.front();
+      __glibcxx_requires_nonempty();
+      return c.front();
       }
 
       /**
@@ -237,8 +237,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       reference
       back()
       {
-	__glibcxx_requires_nonempty();
-	return c.back();
+      __glibcxx_requires_nonempty();
+      return c.back();
       }
 
       /**
@@ -248,8 +248,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const_reference
       back() const
       {
-	__glibcxx_requires_nonempty();
-	return c.back();
+      __glibcxx_requires_nonempty();
+      return c.back();
       }
 
       /**
@@ -272,14 +272,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if __cplusplus > 201402L
       template<typename... _Args>
-	decltype(auto)
-	emplace(_Args&&... __args)
-	{ return c.emplace_back(std::forward<_Args>(__args)...); }
+      decltype(auto)
+      emplace(_Args&&... __args)
+      { return c.emplace_back(std::forward<_Args>(__args)...); }
 #else
       template<typename... _Args>
-	void
-	emplace(_Args&&... __args)
-	{ c.emplace_back(std::forward<_Args>(__args)...); }
+      void
+      emplace(_Args&&... __args)
+      { c.emplace_back(std::forward<_Args>(__args)...); }
 #endif
 #endif
 
@@ -297,8 +297,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       pop()
       {
-	__glibcxx_requires_nonempty();
-	c.pop_front();
+      __glibcxx_requires_nonempty();
+      c.pop_front();
       }
 
 #if __cplusplus >= 201103L
@@ -310,20 +310,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       noexcept(__is_nothrow_swappable<_Tp>::value)
 #endif
       {
-	using std::swap;
-	swap(c, __q.c);
+      using std::swap;
+      swap(c, __q.c);
       }
 #endif // __cplusplus >= 201103L
     };
 
 #if __cpp_deduction_guides >= 201606
   template<typename _Container,
-	   typename = _RequireNotAllocator<_Container>>
+         typename = _RequireNotAllocator<_Container>>
     queue(_Container) -> queue<typename _Container::value_type, _Container>;
 
   template<typename _Container, typename _Allocator,
-	   typename = _RequireNotAllocator<_Container>,
-	   typename = _RequireAllocator<_Allocator>>
+         typename = _RequireNotAllocator<_Container>,
+         typename = _RequireAllocator<_Allocator>>
     queue(_Container, _Allocator)
     -> queue<typename _Container::value_type, _Container>;
 #endif
@@ -452,7 +452,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  the elements for you.  (How could it know to do so?)
   */
   template<typename _Tp, typename _Sequence = vector<_Tp>,
-	   typename _Compare  = less<typename _Sequence::value_type> >
+         typename _Compare  = less<typename _Sequence::value_type> >
     class priority_queue
     {
 #ifdef _GLIBCXX_CONCEPT_CHECKS
@@ -465,20 +465,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       __glibcxx_class_requires(_Sequence, _RandomAccessContainerConcept)
       __glibcxx_class_requires2(_Tp, _Sequence_value_type, _SameTypeConcept)
       __glibcxx_class_requires4(_Compare, bool, _Tp, _Tp,
-				_BinaryFunctionConcept)
+                        _BinaryFunctionConcept)
 #endif
 
 #if __cplusplus >= 201103L
       template<typename _Alloc>
-	using _Uses = typename
-	  enable_if<uses_allocator<_Sequence, _Alloc>::value>::type;
+      using _Uses = typename
+        enable_if<uses_allocator<_Sequence, _Alloc>::value>::type;
 
 #if __cplusplus >= 201703L
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 2566. Requirements on the first template parameter of container
       // adaptors
       static_assert(is_same<_Tp, typename _Sequence::value_type>::value,
-	  "value_type must be the same as the underlying container");
+        "value_type must be the same as the underlying container");
 #endif // C++17
 #endif // C++11
 
@@ -504,15 +504,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #if __cplusplus < 201103L
       explicit
       priority_queue(const _Compare& __x = _Compare(),
-		     const _Sequence& __s = _Sequence())
+                 const _Sequence& __s = _Sequence())
       : c(__s), comp(__x)
       { std::make_heap(c.begin(), c.end(), comp); }
 #else
       template<typename _Seq = _Sequence, typename _Requires = typename
-	       enable_if<__and_<is_default_constructible<_Compare>,
-				is_default_constructible<_Seq>>::value>::type>
-	priority_queue()
-	: c(), comp() { }
+             enable_if<__and_<is_default_constructible<_Compare>,
+                        is_default_constructible<_Seq>>::value>::type>
+      priority_queue()
+      : c(), comp() { }
 
       explicit
       priority_queue(const _Compare& __x, const _Sequence& __s)
@@ -525,34 +525,34 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       { std::make_heap(c.begin(), c.end(), comp); }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	explicit
-	priority_queue(const _Alloc& __a)
-	: c(__a), comp() { }
+      explicit
+      priority_queue(const _Alloc& __a)
+      : c(__a), comp() { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	priority_queue(const _Compare& __x, const _Alloc& __a)
-	: c(__a), comp(__x) { }
+      priority_queue(const _Compare& __x, const _Alloc& __a)
+      : c(__a), comp(__x) { }
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 2537. Constructors [...] taking allocators should call make_heap
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	priority_queue(const _Compare& __x, const _Sequence& __c,
-		       const _Alloc& __a)
-	: c(__c, __a), comp(__x)
-	{ std::make_heap(c.begin(), c.end(), comp); }
+      priority_queue(const _Compare& __x, const _Sequence& __c,
+                   const _Alloc& __a)
+      : c(__c, __a), comp(__x)
+      { std::make_heap(c.begin(), c.end(), comp); }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	priority_queue(const _Compare& __x, _Sequence&& __c, const _Alloc& __a)
-	: c(std::move(__c), __a), comp(__x)
-	{ std::make_heap(c.begin(), c.end(), comp); }
+      priority_queue(const _Compare& __x, _Sequence&& __c, const _Alloc& __a)
+      : c(std::move(__c), __a), comp(__x)
+      { std::make_heap(c.begin(), c.end(), comp); }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	priority_queue(const priority_queue& __q, const _Alloc& __a)
-	: c(__q.c, __a), comp(__q.comp) { }
+      priority_queue(const priority_queue& __q, const _Alloc& __a)
+      : c(__q.c, __a), comp(__q.comp) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-	priority_queue(priority_queue&& __q, const _Alloc& __a)
-	: c(std::move(__q.c), __a), comp(std::move(__q.comp)) { }
+      priority_queue(priority_queue&& __q, const _Alloc& __a)
+      : c(std::move(__q.c), __a), comp(std::move(__q.comp)) { }
 #endif
 
       /**
@@ -572,37 +572,37 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        */
 #if __cplusplus < 201103L
       template<typename _InputIterator>
-	priority_queue(_InputIterator __first, _InputIterator __last,
-		       const _Compare& __x = _Compare(),
-		       const _Sequence& __s = _Sequence())
-	: c(__s), comp(__x)
-	{
-	  __glibcxx_requires_valid_range(__first, __last);
-	  c.insert(c.end(), __first, __last);
-	  std::make_heap(c.begin(), c.end(), comp);
-	}
+      priority_queue(_InputIterator __first, _InputIterator __last,
+                   const _Compare& __x = _Compare(),
+                   const _Sequence& __s = _Sequence())
+      : c(__s), comp(__x)
+      {
+        __glibcxx_requires_valid_range(__first, __last);
+        c.insert(c.end(), __first, __last);
+        std::make_heap(c.begin(), c.end(), comp);
+      }
 #else
       template<typename _InputIterator>
-	priority_queue(_InputIterator __first, _InputIterator __last,
-		       const _Compare& __x,
-		       const _Sequence& __s)
-	: c(__s), comp(__x)
-	{
-	  __glibcxx_requires_valid_range(__first, __last);
-	  c.insert(c.end(), __first, __last);
-	  std::make_heap(c.begin(), c.end(), comp);
-	}
+      priority_queue(_InputIterator __first, _InputIterator __last,
+                   const _Compare& __x,
+                   const _Sequence& __s)
+      : c(__s), comp(__x)
+      {
+        __glibcxx_requires_valid_range(__first, __last);
+        c.insert(c.end(), __first, __last);
+        std::make_heap(c.begin(), c.end(), comp);
+      }
 
       template<typename _InputIterator>
-	priority_queue(_InputIterator __first, _InputIterator __last,
-		       const _Compare& __x = _Compare(),
-		       _Sequence&& __s = _Sequence())
-	: c(std::move(__s)), comp(__x)
-	{
-	  __glibcxx_requires_valid_range(__first, __last);
-	  c.insert(c.end(), __first, __last);
-	  std::make_heap(c.begin(), c.end(), comp);
-	}
+      priority_queue(_InputIterator __first, _InputIterator __last,
+                   const _Compare& __x = _Compare(),
+                   _Sequence&& __s = _Sequence())
+      : c(std::move(__s)), comp(__x)
+      {
+        __glibcxx_requires_valid_range(__first, __last);
+        c.insert(c.end(), __first, __last);
+        std::make_heap(c.begin(), c.end(), comp);
+      }
 #endif
 
       /**
@@ -624,8 +624,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const_reference
       top() const
       {
-	__glibcxx_requires_nonempty();
-	return c.front();
+      __glibcxx_requires_nonempty();
+      return c.front();
       }
 
       /**
@@ -639,25 +639,25 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       push(const value_type& __x)
       {
-	c.push_back(__x);
-	std::push_heap(c.begin(), c.end(), comp);
+      c.push_back(__x);
+      std::push_heap(c.begin(), c.end(), comp);
       }
 
 #if __cplusplus >= 201103L
       void
       push(value_type&& __x)
       {
-	c.push_back(std::move(__x));
-	std::push_heap(c.begin(), c.end(), comp);
+      c.push_back(std::move(__x));
+      std::push_heap(c.begin(), c.end(), comp);
       }
 
       template<typename... _Args>
-	void
-	emplace(_Args&&... __args)
-	{
-	  c.emplace_back(std::forward<_Args>(__args)...);
-	  std::push_heap(c.begin(), c.end(), comp);
-	}
+      void
+      emplace(_Args&&... __args)
+      {
+        c.emplace_back(std::forward<_Args>(__args)...);
+        std::push_heap(c.begin(), c.end(), comp);
+      }
 #endif
 
       /**
@@ -674,9 +674,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       pop()
       {
-	__glibcxx_requires_nonempty();
-	std::pop_heap(c.begin(), c.end(), comp);
-	c.pop_back();
+      __glibcxx_requires_nonempty();
+      std::pop_heap(c.begin(), c.end(), comp);
+      c.pop_back();
       }
 
 #if __cplusplus >= 201103L
@@ -684,42 +684,42 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       swap(priority_queue& __pq)
       noexcept(__and_<
 #if __cplusplus > 201402L || !defined(__STRICT_ANSI__) // c++1z or gnu++11
-		 __is_nothrow_swappable<_Sequence>,
+             __is_nothrow_swappable<_Sequence>,
 #else
-		 __is_nothrow_swappable<_Tp>,
+             __is_nothrow_swappable<_Tp>,
 #endif
-		 __is_nothrow_swappable<_Compare>
-	       >::value)
+             __is_nothrow_swappable<_Compare>
+             >::value)
       {
-	using std::swap;
-	swap(c, __pq.c);
-	swap(comp, __pq.comp);
+      using std::swap;
+      swap(c, __pq.c);
+      swap(comp, __pq.comp);
       }
 #endif // __cplusplus >= 201103L
     };
 
 #if __cpp_deduction_guides >= 201606
   template<typename _Compare, typename _Container,
-	   typename = _RequireNotAllocator<_Compare>,
-	   typename = _RequireNotAllocator<_Container>>
+         typename = _RequireNotAllocator<_Compare>,
+         typename = _RequireNotAllocator<_Container>>
     priority_queue(_Compare, _Container)
     -> priority_queue<typename _Container::value_type, _Container, _Compare>;
 
   template<typename _InputIterator, typename _ValT
-	   = typename iterator_traits<_InputIterator>::value_type,
-	   typename _Compare = less<_ValT>,
-	   typename _Container = vector<_ValT>,
-	   typename = _RequireInputIter<_InputIterator>,
-	   typename = _RequireNotAllocator<_Compare>,
-	   typename = _RequireNotAllocator<_Container>>
+         = typename iterator_traits<_InputIterator>::value_type,
+         typename _Compare = less<_ValT>,
+         typename _Container = vector<_ValT>,
+         typename = _RequireInputIter<_InputIterator>,
+         typename = _RequireNotAllocator<_Compare>,
+         typename = _RequireNotAllocator<_Container>>
     priority_queue(_InputIterator, _InputIterator, _Compare = _Compare(),
-		   _Container = _Container())
+               _Container = _Container())
     -> priority_queue<_ValT, _Container, _Compare>;
 
   template<typename _Compare, typename _Container, typename _Allocator,
-	   typename = _RequireNotAllocator<_Compare>,
-	   typename = _RequireNotAllocator<_Container>,
-	   typename = _RequireAllocator<_Allocator>>
+         typename = _RequireNotAllocator<_Compare>,
+         typename = _RequireNotAllocator<_Container>,
+         typename = _RequireAllocator<_Allocator>>
     priority_queue(_Compare, _Container, _Allocator)
     -> priority_queue<typename _Container::value_type, _Container, _Compare>;
 #endif
@@ -732,17 +732,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #if __cplusplus > 201402L || !defined(__STRICT_ANSI__) // c++1z or gnu++11
     // Constrained free swap overload, see p0185r1
     typename enable_if<__and_<__is_swappable<_Sequence>,
-			      __is_swappable<_Compare>>::value>::type
+                        __is_swappable<_Compare>>::value>::type
 #else
     void
 #endif
     swap(priority_queue<_Tp, _Sequence, _Compare>& __x,
-	 priority_queue<_Tp, _Sequence, _Compare>& __y)
+       priority_queue<_Tp, _Sequence, _Compare>& __y)
     noexcept(noexcept(__x.swap(__y)))
     { __x.swap(__y); }
 
   template<typename _Tp, typename _Sequence, typename _Compare,
-	   typename _Alloc>
+         typename _Alloc>
     struct uses_allocator<priority_queue<_Tp, _Sequence, _Compare>, _Alloc>
     : public uses_allocator<_Sequence, _Alloc>::type { };
 #endif // __cplusplus >= 201103L
