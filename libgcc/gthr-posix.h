@@ -859,6 +859,7 @@ __gthread_cond_signal (__gthread_cond_t *__cond)
   return __gthrw_(pthread_cond_signal) (__cond);
 }
 
+// 只是对 pthread 相关接口的封装
 static inline int
 __gthread_cond_wait (__gthread_cond_t *__cond, __gthread_mutex_t *__mutex)
 {
