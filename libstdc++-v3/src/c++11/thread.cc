@@ -133,8 +133,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   thread::_M_start_thread(_State_ptr state, void (*)())
   {
     const int err = __gthread_create(&_M_id._M_thread,
-				     &execute_native_thread_routine,
-				     state.get());
+                                     &execute_native_thread_routine,
+                                     state.get());
     if (err)
       __throw_system_error(err);
     state.release();
@@ -147,7 +147,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     if (!__gthread_active_p())
 #if __cpp_exceptions
       throw system_error(make_error_code(errc::operation_not_permitted),
-			 "Enable multithreading to use std::thread");
+                         "Enable multithreading to use std::thread");
 #else
       __throw_system_error(int(errc::operation_not_permitted));
 #endif
@@ -162,7 +162,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     // Create a reference cycle that will be broken in the new thread.
     ptr->_M_this_ptr = std::move(__b);
     int __e = __gthread_create(&_M_id._M_thread,
-			       &execute_native_thread_routine_compat, ptr);
+                               &execute_native_thread_routine_compat, ptr);
     if (__e)
     {
       ptr->_M_this_ptr.reset();  // break reference cycle, destroying *ptr.
@@ -188,8 +188,8 @@ namespace this_thread
 #ifdef _GLIBCXX_USE_NANOSLEEP
     __gthread_time_t __ts =
       {
-	static_cast<std::time_t>(__s.count()),
-	static_cast<long>(__ns.count())
+        static_cast<std::time_t>(__s.count()),
+        static_cast<long>(__ns.count())
       };
     while (::nanosleep(&__ts, &__ts) == -1 && errno == EINTR)
       { }
@@ -197,31 +197,31 @@ namespace this_thread
     const auto target = chrono::steady_clock::now() + __s + __ns;
     while (true)
       {
-	unsigned secs = __s.count();
-	if (__ns.count() > 0)
-	  {
+        unsigned secs = __s.count();
+        if (__ns.count() > 0)
+          {
 # ifdef _GLIBCXX_HAVE_USLEEP
-	    long us = __ns.count() / 1000;
-	    if (us == 0)
-	      us = 1;
-	    ::usleep(us);
+            long us = __ns.count() / 1000;
+            if (us == 0)
+              us = 1;
+            ::usleep(us);
 # else
-	    if (__ns.count() > 1000000 || secs == 0)
-	      ++secs; // No sub-second sleep function, so round up.
+            if (__ns.count() > 1000000 || secs == 0)
+              ++secs; // No sub-second sleep function, so round up.
 # endif
-	  }
+          }
 
-	if (secs > 0)
-	  {
-	    // Sleep in a loop to handle interruption by signals:
-	    while ((secs = ::sleep(secs)))
-	      { }
-	  }
-	const auto now = chrono::steady_clock::now();
-	if (now >= target)
-	  break;
-	__s = chrono::duration_cast<chrono::seconds>(target - now);
-	__ns = chrono::duration_cast<chrono::nanoseconds>(target - (now + __s));
+        if (secs > 0)
+          {
+            // Sleep in a loop to handle interruption by signals:
+            while ((secs = ::sleep(secs)))
+              { }
+          }
+        const auto now = chrono::steady_clock::now();
+        if (now >= target)
+          break;
+        __s = chrono::duration_cast<chrono::seconds>(target - now);
+        __ns = chrono::duration_cast<chrono::nanoseconds>(target - (now + __s));
     }
 #elif defined(_GLIBCXX_HAVE_WIN32_SLEEP)
     unsigned long ms = __ns.count() / 1000000;

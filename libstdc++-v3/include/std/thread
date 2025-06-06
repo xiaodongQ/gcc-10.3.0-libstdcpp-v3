@@ -111,8 +111,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
       template<class _CharT, class _Traits>
-	friend basic_ostream<_CharT, _Traits>&
-	operator<<(basic_ostream<_CharT, _Traits>& __out, id __id);
+        friend basic_ostream<_CharT, _Traits>&
+        operator<<(basic_ostream<_CharT, _Traits>& __out, id __id);
     };
 
   private:
@@ -128,33 +128,33 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     thread() noexcept = default;
 
     template<typename _Callable, typename... _Args,
-	     typename = _Require<__not_same<_Callable>>>
+             typename = _Require<__not_same<_Callable>>>
       explicit
       thread(_Callable&& __f, _Args&&... __args)
       {
-	static_assert( __is_invocable<typename decay<_Callable>::type,
-				      typename decay<_Args>::type...>::value,
-	  "std::thread arguments must be invocable after conversion to rvalues"
-	  );
+        static_assert( __is_invocable<typename decay<_Callable>::type,
+                                      typename decay<_Args>::type...>::value,
+          "std::thread arguments must be invocable after conversion to rvalues"
+          );
 
 #ifdef GTHR_ACTIVE_PROXY
-	// Create a reference to pthread_create, not just the gthr weak symbol.
-	auto __depend = reinterpret_cast<void(*)()>(&pthread_create);
+        // Create a reference to pthread_create, not just the gthr weak symbol.
+        auto __depend = reinterpret_cast<void(*)()>(&pthread_create);
 #else
-	auto __depend = nullptr;
+        auto __depend = nullptr;
 #endif
-	// A call wrapper holding tuple{DECAY_COPY(__f), DECAY_COPY(__args)...}
-	using _Invoker_type = _Invoker<__decayed_tuple<_Callable, _Args...>>;
+        // A call wrapper holding tuple{DECAY_COPY(__f), DECAY_COPY(__args)...}
+        using _Invoker_type = _Invoker<__decayed_tuple<_Callable, _Args...>>;
 
-	_M_start_thread(_S_make_state<_Invoker_type>(
-	      std::forward<_Callable>(__f), std::forward<_Args>(__args)...),
-	    __depend);
+        _M_start_thread(_S_make_state<_Invoker_type>(
+              std::forward<_Callable>(__f), std::forward<_Args>(__args)...),
+            __depend);
       }
 
     ~thread()
     {
       if (joinable())
-	std::terminate();
+        std::terminate();
     }
 
     thread(const thread&) = delete;
@@ -167,7 +167,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     thread& operator=(thread&& __t) noexcept
     {
       if (joinable())
-	std::terminate();
+        std::terminate();
       swap(__t);
       return *this;
     }
@@ -204,15 +204,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     template<typename _Callable>
       struct _State_impl : public _State
       {
-	_Callable		_M_func;
+        _Callable		_M_func;
 
-	template<typename... _Args>
-	  _State_impl(_Args&&... __args)
-	  : _M_func{{std::forward<_Args>(__args)...}}
-	  { }
+        template<typename... _Args>
+          _State_impl(_Args&&... __args)
+          : _M_func{{std::forward<_Args>(__args)...}}
+          { }
 
-	void
-	_M_run() { _M_func(); }
+        void
+        _M_run() { _M_func(); }
       };
 
     void
@@ -222,8 +222,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _State_ptr
       _S_make_state(_Args&&... __args)
       {
-	using _Impl = _State_impl<_Callable>;
-	return _State_ptr{new _Impl{std::forward<_Args>(__args)...}};
+        using _Impl = _State_impl<_Callable>;
+        return _State_ptr{new _Impl{std::forward<_Args>(__args)...}};
       }
 #if _GLIBCXX_THREAD_ABI_COMPAT
   public:
@@ -249,27 +249,27 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     template<typename _Tuple>
       struct _Invoker
       {
-	_Tuple _M_t;
+        _Tuple _M_t;
 
-	template<typename>
-	  struct __result;
-	template<typename _Fn, typename... _Args>
-	  struct __result<tuple<_Fn, _Args...>>
-	  : __invoke_result<_Fn, _Args...>
-	  { };
+        template<typename>
+          struct __result;
+        template<typename _Fn, typename... _Args>
+          struct __result<tuple<_Fn, _Args...>>
+          : __invoke_result<_Fn, _Args...>
+          { };
 
-	template<size_t... _Ind>
-	  typename __result<_Tuple>::type
-	  _M_invoke(_Index_tuple<_Ind...>)
-	  { return std::__invoke(std::get<_Ind>(std::move(_M_t))...); }
+        template<size_t... _Ind>
+          typename __result<_Tuple>::type
+          _M_invoke(_Index_tuple<_Ind...>)
+          { return std::__invoke(std::get<_Ind>(std::move(_M_t))...); }
 
-	typename __result<_Tuple>::type
-	operator()()
-	{
-	  using _Indices
-	    = typename _Build_index_tuple<tuple_size<_Tuple>::value>::__type;
-	  return _M_invoke(_Indices());
-	}
+        typename __result<_Tuple>::type
+        operator()()
+        {
+          using _Indices
+            = typename _Build_index_tuple<tuple_size<_Tuple>::value>::__type;
+          return _M_invoke(_Indices());
+        }
       };
 
     template<typename... _Tp>
@@ -282,9 +282,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _Invoker<__decayed_tuple<_Callable, _Args...>>
       __make_invoker(_Callable&& __callable, _Args&&... __args)
       {
-	return { __decayed_tuple<_Callable, _Args...>{
-	    std::forward<_Callable>(__callable), std::forward<_Args>(__args)...
-	} };
+        return { __decayed_tuple<_Callable, _Args...>{
+            std::forward<_Callable>(__callable), std::forward<_Args>(__args)...
+        } };
       }
   };
 
@@ -348,9 +348,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     operator<<(basic_ostream<_CharT, _Traits>& __out, thread::id __id)
     {
       if (__id == thread::id())
-	return __out << "thread::id of a non-executing thread";
+        return __out << "thread::id of a non-executing thread";
       else
-	return __out << __id._M_thread;
+        return __out << __id._M_thread;
     }
 
   /** @namespace std::this_thread
@@ -388,20 +388,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       inline void
       sleep_for(const chrono::duration<_Rep, _Period>& __rtime)
       {
-	if (__rtime <= __rtime.zero())
-	  return;
-	auto __s = chrono::duration_cast<chrono::seconds>(__rtime);
-	auto __ns = chrono::duration_cast<chrono::nanoseconds>(__rtime - __s);
+        if (__rtime <= __rtime.zero())
+          return;
+        auto __s = chrono::duration_cast<chrono::seconds>(__rtime);
+        auto __ns = chrono::duration_cast<chrono::nanoseconds>(__rtime - __s);
 #ifdef _GLIBCXX_USE_NANOSLEEP
-	__gthread_time_t __ts =
-	  {
-	    static_cast<std::time_t>(__s.count()),
-	    static_cast<long>(__ns.count())
-	  };
-	while (::nanosleep(&__ts, &__ts) == -1 && errno == EINTR)
-	  { }
+        __gthread_time_t __ts =
+          {
+            static_cast<std::time_t>(__s.count()),
+            static_cast<long>(__ns.count())
+          };
+        while (::nanosleep(&__ts, &__ts) == -1 && errno == EINTR)
+          { }
 #else
-	__sleep_for(__s, __ns);
+        __sleep_for(__s, __ns);
 #endif
       }
 
@@ -411,20 +411,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       sleep_until(const chrono::time_point<_Clock, _Duration>& __atime)
       {
 #if __cplusplus > 201703L
-	static_assert(chrono::is_clock_v<_Clock>);
+        static_assert(chrono::is_clock_v<_Clock>);
 #endif
-	auto __now = _Clock::now();
-	if (_Clock::is_steady)
-	  {
-	    if (__now < __atime)
-	      sleep_for(__atime - __now);
-	    return;
-	  }
-	while (__now < __atime)
-	  {
-	    sleep_for(__atime - __now);
-	    __now = _Clock::now();
-	  }
+        auto __now = _Clock::now();
+        if (_Clock::is_steady)
+          {
+            if (__now < __atime)
+              sleep_for(__atime - __now);
+            return;
+          }
+        while (__now < __atime)
+          {
+            sleep_for(__atime - __now);
+            __now = _Clock::now();
+          }
       }
   }
 
@@ -443,12 +443,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     { }
 
     template<typename _Callable, typename... _Args,
-	     typename = enable_if_t<!is_same_v<remove_cvref_t<_Callable>,
-					       jthread>>>
+             typename = enable_if_t<!is_same_v<remove_cvref_t<_Callable>,
+                                               jthread>>>
       explicit
       jthread(_Callable&& __f, _Args&&... __args)
       : _M_thread{_S_create(_M_stop_source, std::forward<_Callable>(__f),
-			    std::forward<_Args>(__args)...)}
+                            std::forward<_Args>(__args)...)}
       { }
 
     jthread(const jthread&) = delete;
@@ -543,19 +543,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static thread
       _S_create(stop_source& __ssrc, _Callable&& __f, _Args&&... __args)
       {
-	if constexpr(is_invocable_v<decay_t<_Callable>, stop_token,
-				    decay_t<_Args>...>)
-	  return thread{std::forward<_Callable>(__f), __ssrc.get_token(),
-			std::forward<_Args>(__args)...};
-	else
-	  {
-	    static_assert(is_invocable_v<decay_t<_Callable>,
-					 decay_t<_Args>...>,
-			  "std::thread arguments must be invocable after"
-			  " conversion to rvalues");
-	    return thread{std::forward<_Callable>(__f),
-			  std::forward<_Args>(__args)...};
-	  }
+        if constexpr(is_invocable_v<decay_t<_Callable>, stop_token,
+                                    decay_t<_Args>...>)
+          return thread{std::forward<_Callable>(__f), __ssrc.get_token(),
+                        std::forward<_Args>(__args)...};
+        else
+          {
+            static_assert(is_invocable_v<decay_t<_Callable>,
+                                         decay_t<_Args>...>,
+                          "std::thread arguments must be invocable after"
+                          " conversion to rvalues");
+            return thread{std::forward<_Callable>(__f),
+                          std::forward<_Args>(__args)...};
+          }
       }
 
     stop_source _M_stop_source;
